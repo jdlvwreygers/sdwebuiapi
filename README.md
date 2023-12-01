@@ -1,6 +1,9 @@
 # sdwebuiapi
 API client for AUTOMATIC1111/stable-diffusion-webui
 
+> This is a fork of https://github.com/mix1009/sdwebuiapi that supports HTTP headers for every request to the API endpoint.
+> Primarily useful if the ui is hosted on e.g. huggingface, where you might need an api key to access a private space.
+
 Supports txt2img, img2img, extra-single-image, extra-batch-images API calls.
 
 API support have to be enabled from webui. Add --api when running webui.
