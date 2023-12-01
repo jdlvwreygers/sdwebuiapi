@@ -2,3 +2,10 @@ dist/
 webuiapi.egg-info/
 build/
 *.pyc
+
+.idea
+.vs
+.vscode
+.fleet
+
+*.iml
