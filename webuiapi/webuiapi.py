@@ -354,6 +354,7 @@ class WebUIApi:
         use_https=False,
         username=None,
         password=None,
+        headers: dict[str, str] = None,
     ):
         if baseurl is None:
             if use_https:
@@ -366,6 +367,7 @@ class WebUIApi:
         self.default_steps = steps
 
         self.session = requests.Session()
+        self._headers = headers
 
         if username and password:
             self.set_auth(username, password)
@@ -583,7 +585,7 @@ class WebUIApi:
 
             return asyncio.ensure_future(self.async_post(url=url, json=json))
         else:
-            response = self.session.post(url=url, json=json)
+            response = self.session.post(url=url, json=json, headers=self._headers)
             return self._to_api_result(response)
 
     async def async_post(self, url, json):
@@ -829,7 +831,7 @@ class WebUIApi:
             "image": b64_img(image),
         }
 
-        response = self.session.post(url=f"{self.baseurl}/png-info", json=payload)
+        response = self.session.post(url=f"{self.baseurl}/png-info", json=payload, headers=self._headers)
         return self._to_api_result(response)
 
     """
@@ -842,99 +844,99 @@ class WebUIApi:
             "model": model,
         }
 
-        response = self.session.post(url=f"{self.baseurl}/interrogate", json=payload)
+        response = self.session.post(url=f"{self.baseurl}/interrogate", json=payload, headers=self._headers)
         return self._to_api_result(response)
 
     def interrupt(self):
-        response = self.session.post(url=f"{self.baseurl}/interrupt")
+        response = self.session.post(url=f"{self.baseurl}/interrupt", headers=self._headers)
         return response.json()
 
     def skip(self):
-        response = self.session.post(url=f"{self.baseurl}/skip")
+        response = self.session.post(url=f"{self.baseurl}/skip", headers=self._headers)
         return response.json()
 
     def get_options(self):
-        response = self.session.get(url=f"{self.baseurl}/options")
+        response = self.session.get(url=f"{self.baseurl}/options", headers=self._headers)
         return response.json()
 
     def set_options(self, options):
-        response = self.session.post(url=f"{self.baseurl}/options", json=options)
+        response = self.session.post(url=f"{self.baseurl}/options", json=options, headers=self._headers)
         return response.json()
 
     def get_cmd_flags(self):
-        response = self.session.get(url=f"{self.baseurl}/cmd-flags")
+        response = self.session.get(url=f"{self.baseurl}/cmd-flags", headers=self._headers)
         return response.json()
 
     def get_progress(self):
-        response = self.session.get(url=f"{self.baseurl}/progress")
+        response = self.session.get(url=f"{self.baseurl}/progress", headers=self._headers)
         return response.json()
 
     def get_cmd_flags(self):
-        response = self.session.get(url=f"{self.baseurl}/cmd-flags")
+        response = self.session.get(url=f"{self.baseurl}/cmd-flags", headers=self._headers)
         return response.json()
 
     def get_samplers(self):
-        response = self.session.get(url=f"{self.baseurl}/samplers")
+        response = self.session.get(url=f"{self.baseurl}/samplers", headers=self._headers)
         return response.json()
 
     def get_sd_vae(self):
-        response = self.session.get(url=f"{self.baseurl}/sd-vae")
+        response = self.session.get(url=f"{self.baseurl}/sd-vae", headers=self._headers)
         return response.json()
 
     def get_upscalers(self):
-        response = self.session.get(url=f"{self.baseurl}/upscalers")
+        response = self.session.get(url=f"{self.baseurl}/upscalers", headers=self._headers)
         return response.json()
 
     def get_latent_upscale_modes(self):
-        response = self.session.get(url=f"{self.baseurl}/latent-upscale-modes")
+        response = self.session.get(url=f"{self.baseurl}/latent-upscale-modes", headers=self._headers)
         return response.json()
 
     def get_loras(self):
-        response = self.session.get(url=f"{self.baseurl}/loras")
+        response = self.session.get(url=f"{self.baseurl}/loras", headers=self._headers)
         return response.json()
 
     def get_sd_models(self):
-        response = self.session.get(url=f"{self.baseurl}/sd-models")
+        response = self.session.get(url=f"{self.baseurl}/sd-models", headers=self._headers)
         return response.json()
 
     def get_hypernetworks(self):
-        response = self.session.get(url=f"{self.baseurl}/hypernetworks")
+        response = self.session.get(url=f"{self.baseurl}/hypernetworks", headers=self._headers)
         return response.json()
 
     def get_face_restorers(self):
-        response = self.session.get(url=f"{self.baseurl}/face-restorers")
+        response = self.session.get(url=f"{self.baseurl}/face-restorers", headers=self._headers)
         return response.json()
 
     def get_realesrgan_models(self):
-        response = self.session.get(url=f"{self.baseurl}/realesrgan-models")
+        response = self.session.get(url=f"{self.baseurl}/realesrgan-models", headers=self._headers)
         return response.json()
 
     def get_prompt_styles(self):
-        response = self.session.get(url=f"{self.baseurl}/prompt-styles")
+        response = self.session.get(url=f"{self.baseurl}/prompt-styles", headers=self._headers)
         return response.json()
 
     def get_artist_categories(self):  # deprecated ?
-        response = self.session.get(url=f"{self.baseurl}/artist-categories")
+        response = self.session.get(url=f"{self.baseurl}/artist-categories", headers=self._headers)
         return response.json()
 
     def get_artists(self):  # deprecated ?
-        response = self.session.get(url=f"{self.baseurl}/artists")
+        response = self.session.get(url=f"{self.baseurl}/artists", headers=self._headers)
         return response.json()
 
     def refresh_checkpoints(self):
-        response = self.session.post(url=f"{self.baseurl}/refresh-checkpoints")
+        response = self.session.post(url=f"{self.baseurl}/refresh-checkpoints", headers=self._headers)
         return response.json()
 
     def get_scripts(self):
-        response = self.session.get(url=f"{self.baseurl}/scripts")
+        response = self.session.get(url=f"{self.baseurl}/scripts", headers=self._headers)
         return response.json()
 
     def get_embeddings(self):
-        response = self.session.get(url=f"{self.baseurl}/embeddings")
+        response = self.session.get(url=f"{self.baseurl}/embeddings", headers=self._headers)
         return response.json()
 
     def get_memory(self):
-        response = self.session.get(url=f"{self.baseurl}/memory")
+        response = self.session.get(url=f"{self.baseurl}/memory", headers=self._headers)
         return response.json()
 
     def get_endpoint(self, endpoint, baseurl):
@@ -950,7 +952,7 @@ class WebUIApi:
 
     def custom_get(self, endpoint, baseurl=False):
         url = self.get_endpoint(endpoint, baseurl)
-        response = self.session.get(url=url)
+        response = self.session.get(url=url, headers=self._headers)
         return response.json()
 
     def custom_post(self, endpoint, payload={}, baseurl=False, use_async=False):
@@ -960,7 +962,7 @@ class WebUIApi:
 
             return asyncio.ensure_future(self.async_post(url=url, json=payload))
         else:
-            response = self.session.post(url=url, json=payload)
+            response = self.session.post(url=url, json=payload, headers=self._headers)
             return self._to_api_result(response)
 
     def controlnet_version(self):
